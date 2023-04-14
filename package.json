@@ -1,0 +1,24 @@
+{
+  "name": "youtube_playlist_web_scraping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sprakhar11/Youtube_playlist_web_scraping.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sprakhar11/Youtube_playlist_web_scraping/issues"
+  },
+  "homepage": "https://github.com/sprakhar11/Youtube_playlist_web_scraping#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "pdfkit": "^0.13.0",
+    "puppeteer": "^19.9.0"
+  }
+}
