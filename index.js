@@ -5,7 +5,7 @@ let ctab;
 
         const browserOpen = puppeteer.launch({
             product: 'chrome',
-            headless : false,
+            headless : true,
             defaultViewport : null,
             args : ['--start-maximized']
         })
@@ -14,19 +14,47 @@ let ctab;
 
         const alltabarr = await browsweInstance.pages()
         ctab = alltabarr[0]
-        link = 'https://www.google.com'
+        link = 'https://www.youtube.com/playlist?list=PLW-S5oymMexXTgRyT3BWVt_y608nt85Uj'
         await ctab.goto(link);
-        // await ctab.waitForSelector('#APjFqb');
-        // await ctab.type("#APjFqb", "youtube");
-        // await ctab.keyboard.press("Enter");
-        // await ctab.waitForSelector('#rso > div:nth-child(1) > div > div > div > div > div > div > div.yuRUbf > a > div > div > div > cite');
-        // await ctab.click('#rso > div:nth-child(1) > div > div > div > div > div > div > div.yuRUbf > a > div > div > div > cite');
+        await ctab.waitForSelector('.style-scope.yt-dynamic-sizing-formatted-string.yt-sans-28');
+        let name = await ctab.evaluate(function(select){ return document.querySelector(select).innerText} , '.style-scope.yt-dynamic-sizing-formatted-string.yt-sans-28');
+        console.log(name);     
+
+        let allData = await ctab.evaluate(getData, '.byline-item.style-scope.ytd-playlist-byline-renderer')
+        console.log(allData);
+
+        let total_videos = allData.noOfvideos.split(" ")[0];
+        console.log(total_videos);
+
+        let currentVideos = await getCVideoslength();
+        console.log(currentVideos);
         
-
-
-
-
     } catch (err) {
         console.log(err);
     }
 })()
+
+function getData(selector){
+
+    let allElems = document.querySelectorAll(selector)
+
+    let noOfvideos = allElems[0].innerText
+    let noofviews = allElems[1].innerText
+
+    return {
+        noOfvideos,
+        noofviews
+    }
+
+}
+
+async function getCVideoslength(){
+    let length = await ctab.evaluate(getLength, '.style-scope.ytd-playlist-video-list-renderer');
+    return length;
+}
+
+function getLength(durationSelect){
+    let durationele = document.querySelectorAll(durationSelect);
+    // console.log(" hiiii ", durationele);
+    return durationele.length;
+}
